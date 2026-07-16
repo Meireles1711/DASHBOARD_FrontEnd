@@ -1,0 +1,218 @@
+/* ==========================================================================
+   PAINEL DE MONITORAMENTO — SECCIONADORA INDUSTRIAL — ESTILOS
+   ==========================================================================
+   Cores, ícones e textos não ficam fixos aqui — este arquivo só define
+   APARÊNCIA (cor de fundo, espaçamento, tipografia). Os valores que mudam
+   por estado (cor de destaque, textos, percentuais) são aplicados via
+   JavaScript (api.js) diretamente no atributo style/innerHTML dos
+   elementos, ou através da variável CSS --accent.
+   ========================================================================== */
+
+:root{
+  /* ---- Paleta extraída fielmente das telas de referência ---- */
+  --bg-page:      #0F172A; /* fundo geral do painel */
+  --bg-card:      #1B2536; /* fundo dos cartões */
+  --border-card:  #38BDF8; /* borda ciano padrão dos cartões */
+  --text-primary: #F8FAFC;
+  --text-muted:   #94A3B8;
+  --divider:      #2A3648;
+
+  /* Cor de destaque global — sobrescrita via JS conforme o estado ativo */
+  --accent: #22C55E;
+
+  --radius-card: 18px;
+  --radius-pill: 999px;
+
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+
+html,body{
+  margin:0; padding:0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height:100vh;
+}
+
+.screen{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 32px 120px;
+  position: relative;
+}
+
+/* ---------------------------- CABEÇALHO ---------------------------- */
+.header{ text-align:center; margin-bottom: 28px; }
+.header h1{
+  font-family: var(--font-display);
+  font-weight:700;
+  font-size: 34px;
+  margin: 0 0 2px;
+  letter-spacing: .2px;
+}
+.header p{
+  margin:0;
+  font-size:19px;
+  color: var(--text-muted);
+  font-weight:500;
+}
+
+.state-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 9px 22px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight:600;
+  font-size:15px;
+  color:#fff;
+  background: var(--accent);
+  margin-bottom: 26px;
+  transition: background-color .35s ease;
+}
+
+/* ------------------------------ GRID ------------------------------ */
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 22px;
+}
+.col-status{ grid-column: 1; grid-row: 1 / 3; }
+.col-alerta{ grid-column: 2; grid-row: 1; }
+.col-acoes { grid-column: 2; grid-row: 2; }
+.col-temp  { grid-column: 3; grid-row: 1; }
+.col-press { grid-column: 3; grid-row: 2; }
+
+@media (max-width: 860px){
+  .grid{ grid-template-columns: 1fr; }
+  .col-status,.col-alerta,.col-acoes,.col-temp,.col-press{ grid-column: 1; grid-row: auto; }
+}
+
+/* ------------------------------ CARDS ------------------------------ */
+.card{
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-card);
+  padding: 22px 24px;
+  min-height: 100%;
+  transition: border-color .35s ease;
+}
+.card h2{ font-size: 17px; margin: 0 0 18px; font-weight: 700; }
+.card.center h2, .card.center{ text-align:center; }
+
+/* ---- Card: Status da Máquina ---- */
+.status-icon-row{ display:flex; align-items:center; gap: 20px; margin-bottom: 22px; }
+.status-icon-circle{
+  width: 78px; height:78px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  transition: background-color .35s ease, border-color .35s ease;
+}
+.status-icon-circle svg{ width:38px; height:38px; }
+.status-title{ font-family: var(--font-display); font-weight:600; font-size:20px; line-height:1.15; }
+.status-subtitle{ font-size:14px; color: var(--text-muted); margin-top:2px; }
+
+.metric-row{
+  display:flex; align-items:center; gap:10px;
+  padding: 14px 0;
+  border-top: 1px solid var(--divider);
+  font-size:15px;
+}
+.metric-row:first-of-type{ border-top:none; padding-top:0; }
+.metric-row svg{ width:18px; height:18px; flex-shrink:0; color: var(--text-muted); }
+.metric-row .metric-value{ margin-left:auto; font-weight:700; }
+
+/* ---- Card: Alerta ---- */
+.alerta-icon-wrap{ display:flex; flex-direction:column; align-items:center; gap:12px; padding: 6px 0 14px; }
+.alerta-icon-circle{
+  width:64px; height:64px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  transition: background-color .35s ease;
+}
+.alerta-icon-circle svg{ width:30px; height:30px; }
+.alerta-title{ font-weight:700; font-size:16px; text-align:center; }
+.alerta-desc{ font-size:13.5px; color: var(--text-muted); text-align:center; line-height:1.4; }
+
+/* ---- Card: Ações Recomendadas ---- */
+.acoes-list{ display:flex; flex-direction:column; }
+.acoes-item{
+  padding: 13px 0;
+  border-top: 1px solid var(--divider);
+  font-size: 14.5px;
+  text-align:center;
+  color: var(--text-primary);
+}
+.acoes-item:first-child{ border-top:none; padding-top:2px; }
+.acoes-empty{ text-align:center; color:var(--text-muted); font-size:14px; padding:8px 0; }
+
+/* ---- Card: Temperatura ---- */
+.temp-value-row{ display:flex; align-items:center; justify-content:center; gap:10px; margin: 4px 0 2px; }
+.temp-value{ font-family: var(--font-display); font-weight:700; font-size:44px; transition: color .35s ease; }
+.temp-caption{ text-align:center; font-size:14px; font-weight:600; margin-bottom:16px; transition: color .35s ease; }
+
+.progress-track{ height:8px; border-radius:99px; background:#fff; overflow:hidden; position:relative; }
+.progress-fill{ height:100%; border-radius:99px; background: var(--accent); transition: width .4s ease, background-color .35s ease; }
+.progress-labels{ display:flex; justify-content:space-between; font-size:11.5px; color: var(--text-muted); margin-top:6px; }
+
+/* ---- Card: Pressão Pneumática ---- */
+.press-row{ display:flex; align-items:center; justify-content:center; gap:14px; margin: 6px 0 2px; }
+.press-value{ font-family: var(--font-display); font-weight:700; font-size:38px; color:#22C55E; }
+.press-caption{ text-align:center; font-size:13px; color:#22C55E; font-weight:600; margin-bottom:16px; }
+.gauge-wrap{ width:78px; height:44px; }
+
+/* ------------------------- OVERLAY DE MANUTENÇÃO ------------------------- */
+.maintenance-overlay{
+  position:absolute; inset:0;
+  display:none; align-items:center; justify-content:center;
+  padding: 40px;
+  pointer-events:none;
+}
+.maintenance-overlay.active{ display:flex; }
+.maintenance-panel{
+  background: rgba(75,93,127,0.55);
+  backdrop-filter: blur(3px);
+  border-radius: 18px;
+  max-width: 640px;
+  width:100%;
+  padding: 44px 48px;
+  text-align:center;
+}
+.maintenance-icon{ width:88px; height:88px; margin:0 auto 18px; }
+.maintenance-kicker{ color:#EF4444; font-family: var(--font-display); font-weight:700; font-size:26px; margin-bottom:6px; }
+.maintenance-title{ font-family: var(--font-display); font-weight:700; font-size:38px; margin-bottom:16px; }
+.maintenance-desc{ font-size:16px; color: var(--text-primary); line-height:1.5; }
+
+.grid.dimmed{ opacity:.35; filter: saturate(.6); }
+
+/* ------------------------ PAINEL DE SIMULAÇÃO (DEV) ------------------------
+   Remova este bloco (e a div#stateSwitcher no HTML) quando plugar o
+   backend real — ele existe só para testar os payloads mock.
+------------------------------------------------------------------------- */
+.state-switcher{
+  position: fixed; left:0; right:0; bottom:0;
+  display:flex; justify-content:center; gap:8px;
+  padding: 14px 12px;
+  background: rgba(15,23,42,.92);
+  border-top: 1px solid var(--divider);
+  flex-wrap:wrap;
+  z-index: 20;
+}
+.state-switcher button{
+  font-family: var(--font-body);
+  font-size:13px; font-weight:600;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--divider);
+  background: #141d2e;
+  color: var(--text-muted);
+  cursor:pointer;
+  transition: all .2s ease;
+}
+.state-switcher button:hover{ color:#fff; border-color:#475569; }
+.state-switcher button.active{ background: var(--accent); border-color: var(--accent); color:#fff; }
